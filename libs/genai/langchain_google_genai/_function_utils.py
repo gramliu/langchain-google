@@ -111,10 +111,14 @@ def _format_json_schema_to_gapic(schema: Dict[str, Any]) -> Dict[str, Any]:
             converted_schema["type"] = str(value).upper()
         elif key == "allOf":
             logger.warning("Key 'allOf' not natively supported. Using first type")
-            first_type = value[0]
-            converted_schema["type"] = str(first_type["type"]).upper()
-            if "enum" in first_type:
-                converted_schema["enum"] = first_type["enum"]
+            if len(value) == 0:
+                logger.warning("Expected non-empty type definitions for allOf. Empty list provided")
+            else:
+                first_typedef = value[0]
+                if "type" in first_typedef and "type" not in converted_schema:
+                    converted_schema["type"] = first_typedef["type"]
+                if "enum" in first_typedef:
+                    converted_schema["enum"] = first_typedef["enum"]
         elif key not in _ALLOWED_SCHEMA_FIELDS_SET:
             logger.warning(f"Key '{key}' is not supported in schema, ignoring")
         else:
