@@ -1,5 +1,6 @@
 from typing import Any
 
+from enum import StrEnum
 import google.ai.generativelanguage as glm
 import pytest
 from langchain_core.pydantic_v1 import BaseModel
@@ -133,9 +134,12 @@ def test_tool_to_dict_glm_tool() -> None:
 
 
 def test_tool_to_dict_pydantic() -> None:
+    ColorEnum = StrEnum("Color", ["red", "blue", "green"])
+
     class MyModel(BaseModel):
         name: str
         age: int
+        color: ColorEnum
 
     tool = convert_to_genai_function_declarations([MyModel])
     tool_dict = tool_to_dict(tool)
