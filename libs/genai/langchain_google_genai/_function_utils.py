@@ -112,7 +112,8 @@ def _format_json_schema_to_gapic(schema: Dict[str, Any]) -> Dict[str, Any]:
         elif key == "allOf":
             logger.warning("Key 'allOf' not natively supported. Using first type")
             if len(value) == 0:
-                logger.warning("Expected non-empty type definitions for allOf. Empty list provided")
+                logger.warning("Expected non-empty type definitions for allOf." +
+                               "Empty list provided")
             else:
                 first_typedef = value[0]
                 if "type" in first_typedef and "type" not in converted_schema:

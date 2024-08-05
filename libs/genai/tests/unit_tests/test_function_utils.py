@@ -1,6 +1,6 @@
+from enum import StrEnum
 from typing import Any
 
-from enum import StrEnum
 import google.ai.generativelanguage as glm
 import pytest
 from langchain_core.pydantic_v1 import BaseModel
